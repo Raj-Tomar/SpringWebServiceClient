@@ -10,7 +10,9 @@
 <title>High-Charts</title>
 
 <script type="text/javascript" src="<c:url value="/resources/js/lib/highcharts-4.2.5.js"/>"></script>
-<!-- <script src="http://code.highcharts.com/highcharts.js"></script> -->
+<script type="text/javascript" src="<c:url value="/resources/js/lib/high-chart-exporting-4.2.5.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/lib/highcharts-3d-4.2.5.js"/>"></script>
+
 <script type="text/javascript" src="<c:url value="/resources/js/lib/jquery-3.1.0.min.js"/>"></script>
 
 <script type="text/javascript" src="<c:url value="/resources/js/high-chart.js"/>"></script>
@@ -21,10 +23,35 @@
 
 <div id="highChart_barChart" style="width:100%; height:400px;"></div>
 
+<div id="highChart_pieChart" style="width:100%; height:400px;"></div>
+
+<div id="highChart_pieChart3d" style="width:100%; height:400px;"></div>
+
+<div id="highChart_histogramChart3d" style="width:100%; height:400px;"></div>
+<div id="sliders">
+    <table>
+        <tr>
+        	<td>Alpha Angle</td>
+        	<td><input id="alpha" type="range" min="0" max="45" value="15"/> <span id="alpha-value" class="value"></span></td>
+        </tr>
+        <tr>
+        	<td>Beta Angle</td>
+        	<td><input id="beta" type="range" min="-45" max="45" value="15"/> <span id="beta-value" class="value"></span></td>
+        </tr>
+        <tr>
+        	<td>Depth</td>
+        	<td><input id="depth" type="range" min="20" max="100" value="50"/> <span id="depth-value" class="value"></span></td>
+        </tr>
+    </table>
+ </div>
+
 <script type="text/javascript">
 
 $(document).ready(function() {
+	HighCharts.barChart();
 	HighCharts.pieChart();
+	HighCharts.pieChart3D();
+	HighCharts.histogramChart3d();
 });
 
 </script>
