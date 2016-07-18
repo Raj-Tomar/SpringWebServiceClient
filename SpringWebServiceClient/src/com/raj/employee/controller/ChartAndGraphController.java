@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.raj.employee.dto.KeyValueDto;
 import com.raj.employee.service.ChartAndGraphService;
@@ -26,5 +27,17 @@ public class ChartAndGraphController {
 			e.printStackTrace();
 		}
 		return "googleCharts";
+	}
+	
+	@RequestMapping(value="/googlePieChartData", method=RequestMethod.POST)
+	@ResponseBody
+	public List<KeyValueDto> googlePieChartData(){
+		List<KeyValueDto> list = null;
+		try {
+			list = chartService.googlePieChart();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
 	}
 }
