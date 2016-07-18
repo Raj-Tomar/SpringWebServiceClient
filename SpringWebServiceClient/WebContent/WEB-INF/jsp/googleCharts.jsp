@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Charts</title>
+<title>Google-Charts</title>
 
 <!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> -->
 <!-- <script type="text/javascript" src="https://www.google.com/jsapi"></script> -->
@@ -25,7 +25,11 @@
 	</div>
 	
 	<div style="width: 600px;">
-		<div id="google_Histogram"></div>
+		<div id="google_BarChart"></div>
+	</div>
+	
+	<div style="width: 600px;">
+		<div id="google_HistogramChart"></div>
 	</div>
 
 </body>

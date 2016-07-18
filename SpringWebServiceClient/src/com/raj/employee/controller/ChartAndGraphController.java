@@ -18,11 +18,11 @@ public class ChartAndGraphController {
 	@Autowired
 	ChartAndGraphService chartService;
 	
-	@RequestMapping(value="/googlePieChart", method=RequestMethod.GET)
+	@RequestMapping(value="/googleCharts", method=RequestMethod.GET)
 	public String googlePieChart(Model model){
 		try {
-			List<KeyValueDto> list = chartService.googlePieChart();
-			model.addAttribute("googlePieChart", list);
+			//List<KeyValueDto> list = chartService.googlePieChart();
+			//model.addAttribute("googlePieChart", list);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -32,6 +32,28 @@ public class ChartAndGraphController {
 	@RequestMapping(value="/googlePieChartData", method=RequestMethod.POST)
 	@ResponseBody
 	public List<KeyValueDto> googlePieChartData(){
+		List<KeyValueDto> list = null;
+		try {
+			list = chartService.googlePieChart();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	@RequestMapping(value="/highCharts", method=RequestMethod.GET)
+	public String highChartsPage(Model model){
+		try {
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "high-charts";
+	}
+	
+	@RequestMapping(value="/highChartData", method=RequestMethod.POST)
+	@ResponseBody
+	public List<KeyValueDto> highChartData(){
 		List<KeyValueDto> list = null;
 		try {
 			list = chartService.googlePieChart();
