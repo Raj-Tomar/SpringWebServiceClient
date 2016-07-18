@@ -173,10 +173,10 @@ HighCharts = {
 						enabled: false
 					},
 			        title: {
-			            text: 'Chart rotation demo'
+			        	text: 'Area-wise Top Seven Countries in the World'
 			        },
 			        subtitle: {
-			        	text: 'Area-wise Top Seven Countries in the World'
+			        	text: 'Area-wise countries'
 			        },
 			        plotOptions: {
 			            column: {
@@ -206,6 +206,48 @@ HighCharts = {
 	        });
 	    });
 		
+	},
+	
+	getAllCountryCode : function(){
+		var countyrCodes = "<option value='0'>Select</option>";
+		$.post("getAllCountryCode", function(countryCodesFromServer){
+			for(i=0; i<countryCodesFromServer.length; i++){
+				countyrCodes += "<option value='"+countryCodesFromServer[i]+"'>"+countryCodesFromServer[i]+"</option>";
+			}
+			$('#countryCodes').html(countyrCodes);
+		});
+	},
+	
+	cityPopulationChart : function(countryCode){
+		var options = {
+				chart: {
+					renderTo: 'highChart_cityPopulation',
+					type: 'bar',
+					options3d: {
+						enabled: true,
+						alpha: 45,
+						beta: 0
+					}
+				},
+				credits: {
+					enabled: false
+				},
+				title: {
+					text: 'City-Wise Population'
+				},
+				series: []
+		};
+		
+		$.post("cityWisePopulation/"+countryCode, function(serverData) {
+	        for(i=0; i<serverData.length; i++){
+	        	var json = {
+	        		name : serverData[i].name,
+	        		data : [parseInt(serverData[i].population)],
+	        	}
+	        	options.series.push(json);
+	        }
+	        var chart = new Highcharts.Chart(options);
+	    });
 	},
 }
 

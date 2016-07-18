@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.raj.employee.dto.CountryDto;
 import com.raj.employee.dto.KeyValueDto;
 import com.raj.employee.service.ChartAndGraphService;
 
@@ -34,7 +36,7 @@ public class ChartAndGraphController {
 	public List<KeyValueDto> googlePieChartData(){
 		List<KeyValueDto> list = null;
 		try {
-			list = chartService.googlePieChart();
+			list = chartService.areaWiseCountries();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -56,10 +58,36 @@ public class ChartAndGraphController {
 	public List<KeyValueDto> highChartData(){
 		List<KeyValueDto> list = null;
 		try {
-			list = chartService.googlePieChart();
+			list = chartService.areaWiseCountries();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return list;
 	}
+	
+	@RequestMapping(value="/getAllCountryCode", method=RequestMethod.POST)
+	@ResponseBody
+	public List<String> getAllCountryCode(){
+		List<String> list = null;
+		try {
+			list = chartService.getAllCountryCode();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	@RequestMapping(value="/cityWisePopulation/{countryCode}", method=RequestMethod.POST)
+	@ResponseBody
+	public List<CountryDto> cityWisePopulation(@PathVariable("countryCode")String countryCode){
+		List<CountryDto> list = null;
+		try {
+			list = chartService.cityWisePopulation(countryCode);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
+	
+	
 }
