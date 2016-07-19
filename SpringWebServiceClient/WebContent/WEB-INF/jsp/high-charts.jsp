@@ -53,6 +53,16 @@
 	<div id="highChart_cityPopulation" style="width:100%; height:400px;"></div>
 </div>
 
+<div style="width:100%; height: 100%;">
+	<div>
+		<select id="stateNames">
+		</select>
+	</div>
+	<div id="highChart_geoChart" style="width:100%; height:400px;"></div>
+</div>
+
+
+
 <script type="text/javascript">
 
 $(document).ready(function() {
@@ -62,8 +72,11 @@ $(document).ready(function() {
 	HighCharts.histogramChart3d();
 	HighCharts.getAllCountryCode();
 	$('#countryCodes').change(function(){
-		var countryCode = $("#countryCodes").find('option:selected').val();
-		HighCharts.cityPopulationChart(countryCode);
+		HighCharts.cityPopulationChart();
+	});
+	HighCharts.getStateNames();
+	$('#stateNames').change(function(){
+		HighCharts.stateWisePopulation();
 	});
 });
 

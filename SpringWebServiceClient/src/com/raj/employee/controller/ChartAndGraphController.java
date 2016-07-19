@@ -89,5 +89,27 @@ public class ChartAndGraphController {
 		return list;
 	}
 	
+	@RequestMapping(value="/getStateNames", method=RequestMethod.POST)
+	@ResponseBody
+	public List<String> getStateNames(){
+		List<String> list = null;
+		try {
+			list = chartService.getStateNames();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 	
+	@RequestMapping(value="/stateWisePopulation/{stateName}", method=RequestMethod.POST)
+	@ResponseBody
+	public List<CountryDto> stateWisePopulation(@PathVariable("stateName")String stateName){
+		List<CountryDto> list = null;
+		try {
+			list = chartService.stateWisePopulation(stateName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 }

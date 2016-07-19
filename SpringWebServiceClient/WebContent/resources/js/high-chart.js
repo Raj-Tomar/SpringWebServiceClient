@@ -218,7 +218,8 @@ HighCharts = {
 		});
 	},
 	
-	cityPopulationChart : function(countryCode){
+	cityPopulationChart : function(){
+		var countryCode = $("#countryCodes").find('option:selected').val();
 		var options = {
 				chart: {
 					renderTo: 'highChart_cityPopulation',
@@ -249,6 +250,21 @@ HighCharts = {
 	        var chart = new Highcharts.Chart(options);
 	    });
 	},
+	
+	getStateNames : function(){
+		var stateNames = "<option value='0'>Select</option>";
+		$.post("getStateNames", function(stateNamesFromServer){
+			for(i=0; i<stateNamesFromServer.length; i++){
+				stateNames += "<option value='"+stateNamesFromServer[i]+"'>"+stateNamesFromServer[i]+"</option>";
+			}
+			$('#stateNames').html(stateNames);
+		});
+	},
+	
+	stateWisePopulation : function(){
+		var stateName = $("#stateNames").find('option:selected').val();
+	},
+	
 }
 
 

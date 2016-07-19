@@ -23,4 +23,15 @@ public interface ChartAndGraphService {
 	 */
 	public List<CountryDto> cityWisePopulation(String countryCode);
 
+	/**
+	 * @return
+	 */
+	public List<String> getStateNames();
+
+	/**
+	 * @param stateName
+	 * @return
+	 */
+	public List<CountryDto> stateWisePopulation(String stateName);
+
 }
