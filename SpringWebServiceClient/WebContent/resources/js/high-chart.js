@@ -224,11 +224,11 @@ HighCharts = {
 				chart: {
 					renderTo: 'highChart_cityPopulation',
 					type: 'bar',
-					/*options3d: {
+					options3d: {
 						enabled: true,
 						alpha: 45,
 						beta: 0
-					}*/
+					}
 				},
 				credits: {
 					enabled: false
