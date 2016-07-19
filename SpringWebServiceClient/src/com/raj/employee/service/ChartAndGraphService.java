@@ -2,6 +2,7 @@ package com.raj.employee.service;
 
 import java.util.List;
 
+import com.raj.employee.dto.CityDto;
 import com.raj.employee.dto.CountryDto;
 import com.raj.employee.dto.KeyValueDto;
 
@@ -21,7 +22,7 @@ public interface ChartAndGraphService {
 	 * @param countryCode
 	 * @return
 	 */
-	public List<CountryDto> cityWisePopulation(String countryCode);
+	public List<CityDto> cityWisePopulation(String countryCode);
 
 	/**
 	 * @return

@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+import com.raj.employee.dto.CityDto;
 import com.raj.employee.dto.CountryDto;
 import com.raj.employee.dto.KeyValueDto;
 import com.raj.employee.service.ChartAndGraphService;
@@ -96,8 +97,8 @@ public class ChartAndGraphServiceImpl implements ChartAndGraphService{
 	}
 
 	@Override
-	public List<CountryDto> cityWisePopulation(String countryCode) {
-		List<CountryDto> list = new ArrayList<CountryDto>();
+	public List<CityDto> cityWisePopulation(String countryCode) {
+		List<CityDto> list = new ArrayList<CityDto>();
 		input = new JSONObject();
 		input.put("countryCode", countryCode);
 		try {
@@ -115,7 +116,7 @@ public class ChartAndGraphServiceImpl implements ChartAndGraphService{
 				gson = new Gson();
 				JSONArray jArray = jObj.getJSONArray("cityPopulation");
 				for(int i=0; i<jArray.length(); i++){
-					CountryDto dto = gson.fromJson(jArray.get(i).toString(), CountryDto.class);
+					CityDto dto = gson.fromJson(jArray.get(i).toString(), CityDto.class);
 					list.add(dto);
 				}
 				if(LOGGER.isInfoEnabled())

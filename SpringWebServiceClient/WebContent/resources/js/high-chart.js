@@ -224,11 +224,11 @@ HighCharts = {
 				chart: {
 					renderTo: 'highChart_cityPopulation',
 					type: 'bar',
-					options3d: {
+					/*options3d: {
 						enabled: true,
 						alpha: 45,
 						beta: 0
-					}
+					}*/
 				},
 				credits: {
 					enabled: false
@@ -236,15 +236,58 @@ HighCharts = {
 				title: {
 					text: 'City-Wise Population'
 				},
+				xAxis: {
+		            categories: [],
+		            title: {
+		                text: null
+		            }
+		        },
+		        yAxis: {
+		            min: 0,
+		            title: {
+		                text: 'Population (millions)',
+		                align: 'high'
+		            },
+		            labels: {
+		                overflow: 'justify'
+		            }
+		        },
+		        tooltip: {
+		            valueSuffix: ' millions'
+		        },
+		        plotOptions: {
+		            bar: {
+		                dataLabels: {
+		                    enabled: true
+		                }
+		            }
+		        },
+		        /*legend: {
+		            layout: 'vertical',
+		            align: 'right',
+		            verticalAlign: 'top',
+		            x: -40,
+		            y: 80,
+		            floating: true,
+		            borderWidth: 1,
+		            backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+		            shadow: true
+		        },*/
 				series: []
 		};
 		
 		$.post("cityWisePopulation/"+countryCode, function(serverData) {
+			var populationData = [];
+			for(i=0; i<serverData.length; i++){
+				populationData.push(parseInt(serverData[i].population));
+			}
 	        for(i=0; i<serverData.length; i++){
 	        	var json = {
-	        		name : serverData[i].name,
-	        		data : [parseInt(serverData[i].population)],
+	        		name : serverData[i].district,
+	        		//data : [parseInt(serverData[i].population)],
+	        		data : populationData
 	        	}
+	        	options.xAxis.categories.push(serverData[i].name)
 	        	options.series.push(json);
 	        }
 	        var chart = new Highcharts.Chart(options);

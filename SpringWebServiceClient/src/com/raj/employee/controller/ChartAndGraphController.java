@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.raj.employee.dto.CityDto;
 import com.raj.employee.dto.CountryDto;
 import com.raj.employee.dto.KeyValueDto;
 import com.raj.employee.service.ChartAndGraphService;
@@ -79,8 +80,8 @@ public class ChartAndGraphController {
 	
 	@RequestMapping(value="/cityWisePopulation/{countryCode}", method=RequestMethod.POST)
 	@ResponseBody
-	public List<CountryDto> cityWisePopulation(@PathVariable("countryCode")String countryCode){
-		List<CountryDto> list = null;
+	public List<CityDto> cityWisePopulation(@PathVariable("countryCode")String countryCode){
+		List<CityDto> list = null;
 		try {
 			list = chartService.cityWisePopulation(countryCode);
 		} catch (Exception e) {
