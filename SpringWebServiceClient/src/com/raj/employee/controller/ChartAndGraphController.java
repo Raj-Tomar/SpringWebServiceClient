@@ -112,4 +112,14 @@ public class ChartAndGraphController {
 		}
 		return list;
 	}
+	
+	@RequestMapping(value="/highChartGeoMap", method=RequestMethod.GET)
+	public String highChartGeoMap(Model model){
+		try {
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "highChartGeoMap";
+	}
 }

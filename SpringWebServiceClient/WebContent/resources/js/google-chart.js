@@ -67,7 +67,7 @@ google.setOnLoadCallback(drawBarChart);
 //Google BarChart End
 
 
-//Google BarChart Start
+//Google HistogramChart Start
 function drawHistogramChart() {
 	var options = {
 			'title' : 'Area-wise Top Seven Countries in the World',
@@ -94,4 +94,4 @@ function drawHistogramChart() {
 }
 google.load('visualization', '1.0', {'packages' : [ 'corechart' ]});
 google.setOnLoadCallback(drawHistogramChart);
-//Google BarChart End
+//Google HistogramChart End
