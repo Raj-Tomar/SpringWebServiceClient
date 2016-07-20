@@ -115,12 +115,22 @@ public class ChartAndGraphController {
 	}
 	
 	@RequestMapping(value="/highChartGeoMap", method=RequestMethod.GET)
-	public String highChartGeoMap(Model model){
+	public String highChartGeoMap(){
 		try {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "highChartGeoMap";
+	}
+	
+	@RequestMapping(value="/fusionCharts", method=RequestMethod.GET)
+	public String fusionCharts(){
+		try {
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "fusionCharts";
 	}
 }
