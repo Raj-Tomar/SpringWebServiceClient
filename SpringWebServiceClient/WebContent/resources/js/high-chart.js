@@ -285,6 +285,8 @@ HighCharts = {
 				for(j=0; j<serverData.length; j++){
 					if(districtName === serverData[j].district ){
 						populationData.push(parseInt(serverData[j].population));
+					}else{
+						populationData.push(0);
 					}
 				}
 				var json = {
@@ -292,7 +294,7 @@ HighCharts = {
 						data : populationData,
 						category : serverData[i].name,
 				}
-				//options.xAxis.categories.push(serverData[i].name);
+				options.xAxis.categories.push(serverData[i].name);
 				allData.push(json);
 			}
 			
@@ -303,11 +305,9 @@ HighCharts = {
 	            		j = ++i;
 	            	}
 	            }
-	            options.xAxis.categories.push(allData[i].category);
+	            //options.xAxis.categories.push(allData[i].category);
 	            options.series.push(allData[i]);
 	        }
-	        console.log(JSON.stringify(options.xAxis.categories))
-	        console.log(JSON.stringify(allData))
 	        var chart = new Highcharts.Chart(options);
 	    });
 	},
