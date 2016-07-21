@@ -277,19 +277,37 @@ HighCharts = {
 		};
 		
 		$.post("cityWisePopulation/"+countryCode, function(serverData) {
-			var populationData = [];
+			
+			var allData = [];
 			for(i=0; i<serverData.length; i++){
-				populationData.push(parseInt(serverData[i].population));
+				var districtName = serverData[i].district;
+				var populationData = [];
+				for(j=0; j<serverData.length; j++){
+					if(districtName === serverData[j].district ){
+						populationData.push(parseInt(serverData[j].population));
+					}
+				}
+				var json = {
+						name : serverData[i].district,
+						data : populationData,
+						category : serverData[i].name,
+				}
+				//options.xAxis.categories.push(serverData[i].name);
+				allData.push(json);
 			}
-	        for(i=0; i<serverData.length; i++){
-	        	var json = {
-	        		name : serverData[i].district,
-	        		//data : [parseInt(serverData[i].population)],
-	        		data : populationData
-	        	}
-	        	options.xAxis.categories.push(serverData[i].name)
-	        	options.series.push(json);
+			
+	        // Pushing only Unique Values
+	        for (var i = 0; i < allData.length - 1; i++) {
+	            for(var j = i+1; j < allData.length -1; j++ ){
+	            	if(allData[i].name === allData[j].name){
+	            		j = ++i;
+	            	}
+	            }
+	            options.xAxis.categories.push(allData[i].category);
+	            options.series.push(allData[i]);
 	        }
+	        console.log(JSON.stringify(options.xAxis.categories))
+	        console.log(JSON.stringify(allData))
 	        var chart = new Highcharts.Chart(options);
 	    });
 	},
