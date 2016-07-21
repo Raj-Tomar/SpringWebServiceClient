@@ -277,7 +277,6 @@ HighCharts = {
 		};
 		
 		$.post("cityWisePopulation/"+countryCode, function(serverData) {
-			
 			var allData = [];
 			for(i=0; i<serverData.length; i++){
 				var districtName = serverData[i].district;
@@ -292,7 +291,6 @@ HighCharts = {
 				var json = {
 						name : serverData[i].district,
 						data : populationData,
-						category : serverData[i].name,
 				}
 				options.xAxis.categories.push(serverData[i].name);
 				allData.push(json);
@@ -305,7 +303,6 @@ HighCharts = {
 	            		j = ++i;
 	            	}
 	            }
-	            //options.xAxis.categories.push(allData[i].category);
 	            options.series.push(allData[i]);
 	        }
 	        var chart = new Highcharts.Chart(options);
