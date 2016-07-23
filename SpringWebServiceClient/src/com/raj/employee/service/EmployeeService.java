@@ -19,7 +19,7 @@ public interface EmployeeService {
 	 * @param id
 	 * @return
 	 */
-	public String getEmployeeById(String id);
+	public EmployeeDto getEmployeeById(String id);
 	/**
 	 * @param id
 	 * @return

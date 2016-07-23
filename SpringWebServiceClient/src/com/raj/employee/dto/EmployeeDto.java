@@ -2,18 +2,23 @@ package com.raj.employee.dto;
 
 public class EmployeeDto {
 
-	private Integer id;
+	private String id;
 	private String firstName;
 	private String lastName;
 	private String designation;
 	private String companyName;
 	private String age;
+	private String status;
+	
+	public EmployeeDto() {
+		super();
+	}
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -56,5 +61,13 @@ public class EmployeeDto {
 	public void setAge(String age) {
 		this.age = age;
 	}
-	
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 }
