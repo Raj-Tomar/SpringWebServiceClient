@@ -32,9 +32,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 	
 	@Override
 	public String saveOrUpdateEmployee(EmployeeDto dto) {
-		gson = new Gson();
 		input = new JSONObject();
-		input.put("emp", gson.toJson(dto));
+		input.put("emp", new JSONObject(dto));
 		try {
 			requestData = new JSONObject();
 			requestData.put("requestData", input);
