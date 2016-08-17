@@ -3,6 +3,7 @@
     
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
  <head>
@@ -11,11 +12,18 @@
 	  
   <link href="<c:url value="/resources/css/employee-css.css"/>" rel="stylesheet" type="text/css">
 	  
-  <script type="text/javascript" src="<c:url value="/resources/js/jquery-3.0.0.js"/>"></script>
+  <script type="text/javascript" src="<c:url value="/resources/js/lib/jquery-3.1.0.min.js"/>"></script>
   <script type="text/javascript" src="<c:url value="/resources/js/employee-validation.js"/>"></script>
   
  </head>
  <body>
+ 
+<span style="float: right">
+	<a href="<c:url value ="?lang=en"/>">en</a>
+	| 
+	<a href="<c:url value ="?lang=de"/>">de</a>
+</span>
+ 
  
  <div class="employeeForm">
  <c:if test="${empty employee.id}">
@@ -46,7 +54,8 @@
        </tr>
        </c:if>
        <tr>
-           <td><form:label path="firstName"><em>*</em>First Name:</form:label></td>
+           <%-- <td><form:label path="firstName"><em>*</em>First Name:</form:label></td> --%>
+           <td><form:label path="firstName"><em>*</em><spring:message code="label.firstname"/>:</form:label></td>
            <td><form:input path="firstName" id="firstName"/></td>
        </tr>
        <tr>
@@ -106,11 +115,11 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-	Employee.validateEmployee();
+	/* Employee.validateEmployee();
 	$('#clearEmployee').click(function(){
 		Employee.clearEmployeeForm();
 		Employee.hideAllMessage();
-	});
+	}); */
 });
 
 </script>
