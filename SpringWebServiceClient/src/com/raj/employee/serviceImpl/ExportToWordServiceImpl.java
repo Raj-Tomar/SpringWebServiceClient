@@ -220,174 +220,172 @@ public class ExportToWordServiceImpl {
 	}
 	
 	public void exportMsWordSampleTable(String fileName, String filePath){
+		// Create a new document from scratch
+		XWPFDocument doc = new XWPFDocument();
 		try {
-			// Create a new document from scratch
-			XWPFDocument doc = new XWPFDocument();
-			try {
 
-				String heading1 = "My Heading 1";
+			String heading1 = "My Heading 1";
 
-				XWPFParagraph paragraph = doc.createParagraph();
-				paragraph.setAlignment(ParagraphAlignment.CENTER);
-				paragraph.setStyle(heading1);
+			XWPFParagraph paragraph = doc.createParagraph();
+			paragraph.setAlignment(ParagraphAlignment.CENTER);
+			paragraph.setStyle(heading1);
 
-				XWPFRun run = paragraph.createRun();
-				run.setText("Sample Table");
+			XWPFRun run = paragraph.createRun();
+			run.setText("Sample Table");
 
-				// -- OR --
-				// open an existing empty document with styles already defined
-				//XWPFDocument doc = new XWPFDocument(new FileInputStream("base_document.docx"));
+			// -- OR --
+			// open an existing empty document with styles already defined
+			//XWPFDocument doc = new XWPFDocument(new FileInputStream("base_document.docx"));
 
-				// Create a new table with 6 rows and 3 columns
-				int nRows = 3;
-				int nCols = 1;
-				XWPFTable table = doc.createTable(nRows, nCols);
+			// Create a new table with 6 rows and 3 columns
+			int nRows = 3;
+			int nCols = 1;
+			XWPFTable table = doc.createTable(nRows, nCols);
 
-				// Set the table style. If the style is not defined, the table style
-				// will become "Normal".
-				CTTblPr tblPr = table.getCTTbl().getTblPr();
-				CTString styleStr = tblPr.addNewTblStyle();
-				styleStr.setVal("StyledTable");
+			// Set the table style. If the style is not defined, the table style
+			// will become "Normal".
+			CTTblPr tblPr = table.getCTTbl().getTblPr();
+			CTString styleStr = tblPr.addNewTblStyle();
+			styleStr.setVal("StyledTable");
 
-				// Get a list of the rows in the table
-				List<XWPFTableRow> rows = table.getRows();
-				int rowCt = 0;
-				int colCt = 0;
+			// Get a list of the rows in the table
+			List<XWPFTableRow> rows = table.getRows();
+			int rowCt = 0;
+			int colCt = 0;
 
 
-				for (XWPFTableRow row : rows) {
-					// get table row properties (trPr)
-					CTTrPr trPr = row.getCtRow().addNewTrPr();
-					// set row height; units = twentieth of a point, 360 = 0.25"
-					CTHeight ht = trPr.addNewTrHeight();
-					ht.setVal(BigInteger.valueOf(360));
+			for (XWPFTableRow row : rows) {
+				// get table row properties (trPr)
+				CTTrPr trPr = row.getCtRow().addNewTrPr();
+				// set row height; units = twentieth of a point, 360 = 0.25"
+				CTHeight ht = trPr.addNewTrHeight();
+				ht.setVal(BigInteger.valueOf(360));
 
-					// get the cells in this row
-					List<XWPFTableCell> cells = row.getTableCells();
-					// add content to each cell
-					for (XWPFTableCell cell : cells) {
-						// get a table cell properties element (tcPr)
-						CTTcPr tcpr = cell.getCTTc().addNewTcPr();
-						// set vertical alignment to "center"
-						CTVerticalJc va = tcpr.addNewVAlign();
-						va.setVal(STVerticalJc.CENTER);
+				// get the cells in this row
+				List<XWPFTableCell> cells = row.getTableCells();
+				// add content to each cell
+				for (XWPFTableCell cell : cells) {
+					// get a table cell properties element (tcPr)
+					CTTcPr tcpr = cell.getCTTc().addNewTcPr();
+					// set vertical alignment to "center"
+					CTVerticalJc va = tcpr.addNewVAlign();
+					va.setVal(STVerticalJc.CENTER);
 
-						// Setting Width of Cell
-						cell.getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(3000));
+					// Setting Width of Cell
+					cell.getCTTc().addNewTcPr().addNewTcW().setW(BigInteger.valueOf(3000));
 
-						// create cell color element
-						CTShd ctshd = tcpr.addNewShd();
-						ctshd.setColor("auto");
-						ctshd.setVal(STShd.CLEAR);
-						if (rowCt % 2 == 0) {
-							// even row
-							ctshd.setFill("D3DFEE");
-						} else {
-							// odd row
-							ctshd.setFill("EDF2F8");
-						}
+					// create cell color element
+					CTShd ctshd = tcpr.addNewShd();
+					ctshd.setColor("auto");
+					ctshd.setVal(STShd.CLEAR);
+					if (rowCt % 2 == 0) {
+						// even row
+						ctshd.setFill("D3DFEE");
+					} else {
+						// odd row
+						ctshd.setFill("EDF2F8");
+					}
 
-						// get 1st paragraph in cell's paragraph list
-						XWPFParagraph para = cell.getParagraphs().get(0);
-						// create a run to contain the content
-						XWPFRun rh = para.createRun();
-						// style cell as desired
-						if (colCt == nCols - 1) {
-							// last column is 10pt Courier
-							rh.setFontSize(10);
-							rh.setFontFamily("Courier");
-						}
-						rh.setText("Location Name: "+rowCt);
-						rh.setBold(true);
-						para.setAlignment(ParagraphAlignment.LEFT);
-						rh.addBreak();
+					// get 1st paragraph in cell's paragraph list
+					XWPFParagraph para = cell.getParagraphs().get(0);
+					// create a run to contain the content
+					XWPFRun rh = para.createRun();
+					// style cell as desired
+					if (colCt == nCols - 1) {
+						// last column is 10pt Courier
+						rh.setFontSize(10);
+						rh.setFontFamily("Courier");
+					}
+					rh.setText("Location Name: "+rowCt);
+					rh.setBold(true);
+					para.setAlignment(ParagraphAlignment.LEFT);
+					rh.addBreak();
 
-						rh.setText("Description: "+"xyz...");
-						rh.setBold(true);
-						para.setAlignment(ParagraphAlignment.LEFT);
-						rh.addBreak();
+					rh.setText("Description: "+"xyz...");
+					rh.setBold(true);
+					para.setAlignment(ParagraphAlignment.LEFT);
+					rh.addBreak();
 
-						rh.setText("Images:");
-						rh.setBold(true);
-						para.setAlignment(ParagraphAlignment.LEFT);
-						rh.addBreak();
+					rh.setText("Images:");
+					rh.setBold(true);
+					para.setAlignment(ParagraphAlignment.LEFT);
+					rh.addBreak();
 
-						// Images
-						XWPFRun imagePara = para.createRun();
-						
-						/*
+					// Images
+					XWPFRun imagePara = para.createRun();
+
+					/*
 						String args[] = {"C:/Documents and Settings/Administrator/Desktop/New Folder/bike.jpg",
 								"C:/Documents and Settings/Administrator/Desktop/New Folder/yamaha.jpg",
 								"C:/Documents and Settings/Administrator/Desktop/New Folder/iphone 6.jpg",};
-						*/
-						
-						String args[] = {
-										"http://assets.barcroftmedia.com.s3-website-eu-west-1.amazonaws.com/assets/images/recent-images-11.jpg",
-										"https://s-media-cache-ak0.pinimg.com/originals/9c/b3/f8/9cb3f845b24223556ed8b23a1b5c0e77.jpg",
-										"http://st.depositphotos.com/1025727/4454/v/450/depositphotos_44541595-Chamomile-flowers-field.jpg"
-										};
-						
-						try {
-							int imgNo = 1;
-							for(String imgFile : args) {
-								
-								int format;
-								if(imgFile.endsWith(".emf")) format = XWPFDocument.PICTURE_TYPE_EMF;
-								else if(imgFile.endsWith(".wmf")) format = XWPFDocument.PICTURE_TYPE_WMF;
-								else if(imgFile.endsWith(".pict")) format = XWPFDocument.PICTURE_TYPE_PICT;
-								else if(imgFile.endsWith(".jpeg") || imgFile.endsWith(".jpg")) format = XWPFDocument.PICTURE_TYPE_JPEG;
-								else if(imgFile.endsWith(".png")) format = XWPFDocument.PICTURE_TYPE_PNG;
-								else if(imgFile.endsWith(".dib")) format = XWPFDocument.PICTURE_TYPE_DIB;
-								else if(imgFile.endsWith(".gif")) format = XWPFDocument.PICTURE_TYPE_GIF;
-								else if(imgFile.endsWith(".tiff")) format = XWPFDocument.PICTURE_TYPE_TIFF;
-								else if(imgFile.endsWith(".eps")) format = XWPFDocument.PICTURE_TYPE_EPS;
-								else if(imgFile.endsWith(".bmp")) format = XWPFDocument.PICTURE_TYPE_BMP;
-								else if(imgFile.endsWith(".wpg")) format = XWPFDocument.PICTURE_TYPE_WPG;
-								else {
-									System.err.println("Unsupported picture: " + imgFile +
-											". Expected emf|wmf|pict|jpeg|png|dib|gif|tiff|eps|bmp|wpg");
-									continue;
-								}
-								URL url = new URL(imgFile); 
-								String tDir = System.getProperty("java.io.tmpdir"); 
-								String path = tDir + "TempImage";
-								System.out.println("Temp Path:\n"+path);
-								File file = new File(path); 
-								FileUtils.copyURLToFile(url, file);
-								
-								imagePara.setText(imgNo+")");
-								imagePara.addBreak();
-								imagePara.addPicture(new FileInputStream(file), format, imgFile, Units.toEMU(50), Units.toEMU(50)); // 50x50 pixels
-								imagePara.addBreak();
-								imgNo++;
-								
-								file.deleteOnExit();
+					 */
+
+					String args[] = {
+							"http://assets.barcroftmedia.com.s3-website-eu-west-1.amazonaws.com/assets/images/recent-images-11.jpg",
+							"https://s-media-cache-ak0.pinimg.com/originals/9c/b3/f8/9cb3f845b24223556ed8b23a1b5c0e77.jpg",
+							"http://st.depositphotos.com/1025727/4454/v/450/depositphotos_44541595-Chamomile-flowers-field.jpg"
+					};
+
+					try {
+						int imgNo = 1;
+						for(String imgFile : args) {
+
+							int format;
+							if(imgFile.endsWith(".emf")) format = XWPFDocument.PICTURE_TYPE_EMF;
+							else if(imgFile.endsWith(".wmf")) format = XWPFDocument.PICTURE_TYPE_WMF;
+							else if(imgFile.endsWith(".pict")) format = XWPFDocument.PICTURE_TYPE_PICT;
+							else if(imgFile.endsWith(".jpeg") || imgFile.endsWith(".jpg")) format = XWPFDocument.PICTURE_TYPE_JPEG;
+							else if(imgFile.endsWith(".png")) format = XWPFDocument.PICTURE_TYPE_PNG;
+							else if(imgFile.endsWith(".dib")) format = XWPFDocument.PICTURE_TYPE_DIB;
+							else if(imgFile.endsWith(".gif")) format = XWPFDocument.PICTURE_TYPE_GIF;
+							else if(imgFile.endsWith(".tiff")) format = XWPFDocument.PICTURE_TYPE_TIFF;
+							else if(imgFile.endsWith(".eps")) format = XWPFDocument.PICTURE_TYPE_EPS;
+							else if(imgFile.endsWith(".bmp")) format = XWPFDocument.PICTURE_TYPE_BMP;
+							else if(imgFile.endsWith(".wpg")) format = XWPFDocument.PICTURE_TYPE_WPG;
+							else {
+								System.err.println("Unsupported picture: " + imgFile +
+										". Expected emf|wmf|pict|jpeg|png|dib|gif|tiff|eps|bmp|wpg");
+								continue;
 							}
-						}
-						catch(Exception e){
-							e.printStackTrace();
-						}
+							URL url = new URL(imgFile); 
+							String tDir = System.getProperty("java.io.tmpdir"); 
+							String path = tDir + "TempImage";
+							System.out.println("Temp Path:\n"+path);
+							File file = new File(path); 
+							FileUtils.copyURLToFile(url, file);
 
-						colCt++;
-					} // for cell
-					colCt = 0;
-					rowCt++;
-				} // for row
+							imagePara.setText(imgNo+")");
+							imagePara.addBreak();
+							imagePara.addPicture(new FileInputStream(file), format, imgFile, Units.toEMU(50), Units.toEMU(50)); // 50x50 pixels
+							imagePara.addBreak();
+							imgNo++;
 
-				// write the file
-				FileOutputStream out = new FileOutputStream(filePath + File.separator + new File(fileName));
-				try {
-					doc.write(out);
-				} finally {
-					out.close();
-				}
+							file.deleteOnExit();
+						}
+					}
+					catch(Exception e){
+						e.printStackTrace();
+					}
+
+					colCt++;
+				} // for cell
+				colCt = 0;
+				rowCt++;
+			} // for row
+
+			// write the file
+			FileOutputStream out = new FileOutputStream(filePath + File.separator + new File(fileName));
+			try {
+				doc.write(out);
 			} finally {
+				out.close();
 				doc.close();
 			}
-		}
+		} 
 		catch(Exception e) {
 			System.out.println("Error trying to create styled table.");
 		}
+
 	}
 	
 	
