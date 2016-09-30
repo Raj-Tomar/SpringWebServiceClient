@@ -47,7 +47,7 @@ public class ExportToMsWord {
 				response.setContentType("application/octet-stream");
 				response.setHeader("Content-Disposition","attatchment; filename=\""+ downloadFile.getName()+"\"");
 				OutputStream os = response.getOutputStream();
-				byte[] buffer = new byte[1024];
+				byte[] buffer = new byte[(int) downloadFile.length()];
 				int len;
 				while ((len = is.read(buffer)) != -1) {
 					os.write(buffer, 0, len);
@@ -83,7 +83,7 @@ public class ExportToMsWord {
 				response.setContentType("application/octet-stream");
 				response.setHeader("Content-Disposition","attatchment; filename=\""+ downloadFile.getName()+"\"");
 				OutputStream os = response.getOutputStream();
-				byte[] buffer = new byte[1024];
+				byte[] buffer = new byte[(int) downloadFile.length()];
 				int len;
 				while ((len = is.read(buffer)) != -1) {
 					os.write(buffer, 0, len);
@@ -118,7 +118,7 @@ public class ExportToMsWord {
 				response.setContentType("application/octet-stream");
 				response.setHeader("Content-Disposition","attatchment; filename=\""+ downloadFile.getName()+"\"");
 				OutputStream os = response.getOutputStream();
-				byte[] buffer = new byte[1024];
+				byte[] buffer = new byte[(int) downloadFile.length()];
 				int len;
 				while ((len = is.read(buffer)) != -1) {
 					os.write(buffer, 0, len);
@@ -153,7 +153,7 @@ public class ExportToMsWord {
 				response.setContentType("application/octet-stream");
 				response.setHeader("Content-Disposition","attatchment; filename=\""+ downloadFile.getName()+"\"");
 				OutputStream os = response.getOutputStream();
-				byte[] buffer = new byte[1024];
+				byte[] buffer = new byte[(int) downloadFile.length()];
 				int len;
 				while ((len = is.read(buffer)) != -1) {
 					os.write(buffer, 0, len);
@@ -189,7 +189,7 @@ public class ExportToMsWord {
 				response.setContentType("application/octet-stream");
 				response.setHeader("Content-Disposition","attatchment; filename=\""+ downloadFile.getName()+"\"");
 				OutputStream os = response.getOutputStream();
-				byte[] buffer = new byte[1024];
+				byte[] buffer = new byte[(int) downloadFile.length()];
 				int len;
 				while ((len = is.read(buffer)) != -1) {
 					os.write(buffer, 0, len);
