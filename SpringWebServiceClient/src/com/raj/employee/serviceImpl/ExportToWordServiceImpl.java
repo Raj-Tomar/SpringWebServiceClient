@@ -39,6 +39,7 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTHpsMeasure;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTOnOff;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTP;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTPPr;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTPageMar;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTR;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTRPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
@@ -176,7 +177,7 @@ public class ExportToWordServiceImpl {
 
 		String args[] = {"C:/Documents and Settings/Administrator/Desktop/New Folder/bike.jpg",
 						"C:/Documents and Settings/Administrator/Desktop/New Folder/yamaha.jpg",
-						"C:/Documents and Settings/Administrator/Desktop/New Folder/iphone 6.jpg",};
+						"C:/Documents and Settings/Administrator/Desktop/New Folder/iphone 6.jpg"};
 
 		try {
 			for(String imgFile : args) {
@@ -235,8 +236,15 @@ public class ExportToWordServiceImpl {
 	public void exportMsWordSampleTable(String fileName, String filePath){
 		// Create a new document from scratch
 		XWPFDocument doc = new XWPFDocument();
-		// Header and Footer
+		// Set Margins of the document
 		CTSectPr sectPr = doc.getDocument().getBody().addNewSectPr();
+	    CTPageMar pageMar = sectPr.addNewPgMar();
+	    pageMar.setLeft(BigInteger.valueOf(1500L));
+	    pageMar.setRight(BigInteger.valueOf(1500L));
+	    pageMar.setTop(BigInteger.valueOf(2000L));
+	    pageMar.setBottom(BigInteger.valueOf(1000L));
+		
+		// Header and Footer
 		XWPFHeaderFooterPolicy policy = new XWPFHeaderFooterPolicy(doc, sectPr);
 		
 		try {
