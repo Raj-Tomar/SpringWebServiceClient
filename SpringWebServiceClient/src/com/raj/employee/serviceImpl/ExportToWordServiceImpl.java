@@ -246,7 +246,7 @@ public class ExportToWordServiceImpl {
 			CTP ctpHeader = CTP.Factory.newInstance();
 			CTR ctrHeader = ctpHeader.addNewR();
 			CTText ctHeader = ctrHeader.addNewT();
-			String headerText = "Issue Report";
+			String headerText = "Sample Report";
 			ctHeader.setStringValue(headerText);	
 			XWPFParagraph headerParagraph = new XWPFParagraph(ctpHeader, doc);
 			headerParagraph.setAlignment(ParagraphAlignment.CENTER);
@@ -326,7 +326,7 @@ public class ExportToWordServiceImpl {
 		    
 		    
 		    XWPFParagraph footerCopyrightParagraph = new XWPFParagraph(footerCtp, doc);
-		    footerCopyrightParagraph.setBorderBottom(Borders.BASIC_THIN_LINES);
+		    footerCopyrightParagraph.setBorderTop(Borders.BASIC_THIN_LINES);
 		    doc.getProperties().getExtendedProperties().getUnderlyingProperties().getPages();
 		    XWPFRun footerParaRun = footerCopyrightParagraph.getRun(footerCtr);
 		    SimpleDateFormat dateFormate = new SimpleDateFormat("dd/MM/yyyy");
@@ -345,10 +345,9 @@ public class ExportToWordServiceImpl {
 			footerCtp.addNewR().addNewT().setStringValue("1");
 			footerCtp.addNewR().addNewFldChar().setFldCharType(STFldCharType.END);
 		    
-			setTabStop(footerCtp, STTabJc.Enum.forString("right"), BigInteger.valueOf(9000));
+			setTabStop(footerCtp, STTabJc.Enum.forString("right"), BigInteger.valueOf(9350));
 
 		    XWPFParagraph[] footerParagraphs = {footerCopyrightParagraph};
-		    //CTSectPr sectPr = doc.getDocument().getBody().addNewSectPr();
 		    XWPFHeaderFooterPolicy headerFooterPolicy = new XWPFHeaderFooterPolicy(doc, sectPr);
 		    headerFooterPolicy.createFooter(STHdrFtr.DEFAULT, footerParagraphs);
 			
