@@ -5,12 +5,15 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.math.BigInteger;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.util.Units;
+import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.Borders;
 import org.apache.poi.xwpf.usermodel.BreakClear;
 import org.apache.poi.xwpf.usermodel.BreakType;
@@ -29,19 +32,27 @@ import org.apache.poi.xwpf.usermodel.XWPFTableCell;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTColor;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTDecimalNumber;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTFldChar;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTFonts;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTHeight;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTHpsMeasure;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTJc;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTOnOff;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTP;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTPPr;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTR;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTRPr;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTShd;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTString;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTStyle;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTcPr;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTText;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTrPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTVerticalJc;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.STFldCharType;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.STJc;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STShd;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STStyleType;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STVerticalJc;
@@ -222,8 +233,91 @@ public class ExportToWordServiceImpl {
 	public void exportMsWordSampleTable(String fileName, String filePath){
 		// Create a new document from scratch
 		XWPFDocument doc = new XWPFDocument();
+		// Header and Footer
+		CTSectPr sectPr = doc.getDocument().getBody().addNewSectPr();
+		XWPFHeaderFooterPolicy policy = new XWPFHeaderFooterPolicy(doc, sectPr);
+		
 		try {
+			
+			
+			//write header content
+			CTP ctpHeader = CTP.Factory.newInstance();
+			CTR ctrHeader = ctpHeader.addNewR();
+			CTText ctHeader = ctrHeader.addNewT();
+			String headerText = "Issue Report";
+			ctHeader.setStringValue(headerText);	
+			XWPFParagraph headerParagraph = new XWPFParagraph(ctpHeader, doc);
+			headerParagraph.setAlignment(ParagraphAlignment.CENTER);
+			XWPFRun headerRun = headerParagraph.createRun();
+			headerRun.setUnderline(UnderlinePatterns.THICK);
+			
+			
+			XWPFParagraph[] parsHeader = new XWPFParagraph[1];
+			parsHeader[0] = headerParagraph;
+			parsHeader[0].setBorderBottom(Borders.BASIC_THIN_LINES);
+			policy.createHeader(XWPFHeaderFooterPolicy.DEFAULT, parsHeader);
 
+			//write footer content
+			/*
+			CTP ctpFooter = CTP.Factory.newInstance();
+			CTR ctrFooter = ctpFooter.addNewR();
+			CTText ctFooter = ctrFooter.addNewT();
+			SimpleDateFormat dateFormate = new SimpleDateFormat("dd/MM/yyyy");
+			String footerText = "Report Generation Date: "+dateFormate.format(new Date());
+			ctFooter.setStringValue(footerText);
+			XWPFParagraph footerParagraph = new XWPFParagraph(ctpFooter, doc);
+			footerParagraph.setAlignment(ParagraphAlignment.LEFT);
+			
+			XWPFParagraph[] parsFooter = new XWPFParagraph[1];
+			parsFooter[0] = footerParagraph;
+			policy.createFooter(XWPFHeaderFooterPolicy.DEFAULT, parsFooter);
+			*/
+			
+			// create footer
+			CTP ctpFooter = CTP.Factory.newInstance();
+
+			XWPFParagraph[] parsFooter;
+
+			// add style (s.th.)
+			CTPPr ctppr = ctpFooter.addNewPPr();
+			CTString pst = ctppr.addNewPStyle();
+			pst.setVal("style21");
+			CTJc ctjc = ctppr.addNewJc();
+			ctjc.setVal(STJc.RIGHT);
+			ctppr.addNewRPr();
+
+			// add everything from the footerXXX.xml you need
+			CTR ctrFooter = ctpFooter.addNewR();
+			CTText ctFooter = ctrFooter.addNewT();
+			SimpleDateFormat dateFormate = new SimpleDateFormat("dd/MM/yyyy");
+			String footerText = "Report Generation Date: "+dateFormate.format(new Date())+" Page No: ";
+			ctFooter.setStringValue(footerText);
+			
+			
+			CTR ctr = ctpFooter.addNewR();
+			ctr.addNewRPr();
+			CTFldChar fch = ctr.addNewFldChar();
+			fch.setFldCharType(STFldCharType.BEGIN);
+
+			ctr = ctpFooter.addNewR();
+			ctr.addNewInstrText().setStringValue(" PAGE ");
+
+			ctpFooter.addNewR().addNewFldChar().setFldCharType(STFldCharType.SEPARATE);
+
+			ctpFooter.addNewR().addNewT().setStringValue("1");
+
+			ctpFooter.addNewR().addNewFldChar().setFldCharType(STFldCharType.END);
+
+			XWPFParagraph footerParagraph = new XWPFParagraph(ctpFooter, doc);
+
+			parsFooter = new XWPFParagraph[1];
+
+			parsFooter[0] = footerParagraph;
+			parsFooter[0].setBorderTop(Borders.BASIC_THIN_LINES);
+
+			policy.createFooter(XWPFHeaderFooterPolicy.DEFAULT, parsFooter);
+			
+			
 			String heading1 = "My Heading 1";
 
 			XWPFParagraph paragraph = doc.createParagraph();
