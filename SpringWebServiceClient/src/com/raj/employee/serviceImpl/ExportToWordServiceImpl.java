@@ -36,7 +36,6 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTFldChar;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTFonts;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTHeight;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTHpsMeasure;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTJc;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTOnOff;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTP;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTPPr;
@@ -46,15 +45,18 @@ import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTSectPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTShd;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTString;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTStyle;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTabStop;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTabs;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTblPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTcPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTText;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTTrPr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.CTVerticalJc;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STFldCharType;
-import org.openxmlformats.schemas.wordprocessingml.x2006.main.STJc;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.STHdrFtr;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STShd;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STStyleType;
+import org.openxmlformats.schemas.wordprocessingml.x2006.main.STTabJc;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.STVerticalJc;
 import org.springframework.stereotype.Service;
 
@@ -274,37 +276,6 @@ public class ExportToWordServiceImpl {
 			*/
 			
 			/*
-			CTP footerCtp = CTP.Factory.newInstance(); 
-            CTR footerCtr = footerCtp.addNewR(); 
-            
-            footerCtr.addNewRPr();
-			CTFldChar fch = footerCtr.addNewFldChar();
-			fch.setFldCharType(STFldCharType.BEGIN);
-
-			footerCtr = footerCtp.addNewR();
-			footerCtr.addNewInstrText().setStringValue(" PAGE ");
-
-			footerCtp.addNewR().addNewFldChar().setFldCharType(STFldCharType.SEPARATE);
-
-			footerCtp.addNewR().addNewT().setStringValue("1");
-
-			footerCtp.addNewR().addNewFldChar().setFldCharType(STFldCharType.END);
-			
-            XWPFParagraph footerCopyrightParagraph = new XWPFParagraph(footerCtp, doc); 
-            doc.getProperties().getExtendedProperties().getUnderlyingProperties().getPages(); 
-            XWPFRun run = footerCopyrightParagraph.getRun(footerCtr);
-            SimpleDateFormat dateFormate = new SimpleDateFormat("dd/MM/yyyy");
-            run.setText("Report Generation Date: "+dateFormate.format(new Date())); 
-            run.addTab(); 
-            run.setText("Page: "); 
-            run.setFontSize(10); 
-            run.setFontFamily("Arial"); 
-
-            XWPFParagraph[] footerParagraphs = { footerCopyrightParagraph }; 
-            policy.createFooter(STHdrFtr.DEFAULT, footerParagraphs); 
-			*/
-			
-			
 			// create footer
 			CTP ctpFooter = CTP.Factory.newInstance();
 
@@ -348,8 +319,40 @@ public class ExportToWordServiceImpl {
 			parsFooter[0].setBorderTop(Borders.BASIC_THIN_LINES);
 
 			policy.createFooter(XWPFHeaderFooterPolicy.DEFAULT, parsFooter);
+			*/
 			
+			CTP footerCtp = CTP.Factory.newInstance();
+		    CTR footerCtr = footerCtp.addNewR();
+		    
+		    
+		    XWPFParagraph footerCopyrightParagraph = new XWPFParagraph(footerCtp, doc);
+		    footerCopyrightParagraph.setBorderBottom(Borders.BASIC_THIN_LINES);
+		    doc.getProperties().getExtendedProperties().getUnderlyingProperties().getPages();
+		    XWPFRun footerParaRun = footerCopyrightParagraph.getRun(footerCtr);
+		    SimpleDateFormat dateFormate = new SimpleDateFormat("dd/MM/yyyy");
+			String footerDate = "Report Generation Date: "+dateFormate.format(new Date());
+			footerParaRun.setText(footerDate);
+			footerParaRun.addTab();
+		    //run.setText("\u00A9" + " My Website - " + Calendar.getInstance().get(Calendar.YEAR));
+		    //run.addTab();
+			footerParaRun.setText("Page No: ");
+		    
+		    CTFldChar fch = footerCtr.addNewFldChar();
+			fch.setFldCharType(STFldCharType.BEGIN);
+			footerCtr = footerCtp.addNewR();
+			footerCtr.addNewInstrText().setStringValue(" PAGE ");
+			footerCtp.addNewR().addNewFldChar().setFldCharType(STFldCharType.SEPARATE);
+			footerCtp.addNewR().addNewT().setStringValue("1");
+			footerCtp.addNewR().addNewFldChar().setFldCharType(STFldCharType.END);
+		    
+			setTabStop(footerCtp, STTabJc.Enum.forString("right"), BigInteger.valueOf(9000));
+
+		    XWPFParagraph[] footerParagraphs = {footerCopyrightParagraph};
+		    //CTSectPr sectPr = doc.getDocument().getBody().addNewSectPr();
+		    XWPFHeaderFooterPolicy headerFooterPolicy = new XWPFHeaderFooterPolicy(doc, sectPr);
+		    headerFooterPolicy.createFooter(STHdrFtr.DEFAULT, footerParagraphs);
 			
+		    
 			String heading1 = "My Heading 1";
 
 			XWPFParagraph paragraph = doc.createParagraph();
@@ -750,4 +753,20 @@ public class ExportToWordServiceImpl {
         byte[] bytes = adapter.unmarshal(hexString);
         return bytes;
    }
+    
+    private static void setTabStop(CTP oCTP, STTabJc.Enum oSTTabJc, BigInteger oPos) {
+	    CTPPr oPPr = oCTP.getPPr();
+	    if (oPPr == null) {
+	        oPPr = oCTP.addNewPPr();
+	    }
+
+	    CTTabs oTabs = oPPr.getTabs();
+	    if (oTabs == null) {
+	        oTabs = oPPr.addNewTabs();
+	    }
+
+	    CTTabStop oTabStop = oTabs.addNewTab();
+	    oTabStop.setVal(oSTTabJc);
+	    oTabStop.setPos(oPos);
+	}
 }
