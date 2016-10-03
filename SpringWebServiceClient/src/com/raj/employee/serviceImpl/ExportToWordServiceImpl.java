@@ -273,6 +273,38 @@ public class ExportToWordServiceImpl {
 			policy.createFooter(XWPFHeaderFooterPolicy.DEFAULT, parsFooter);
 			*/
 			
+			/*
+			CTP footerCtp = CTP.Factory.newInstance(); 
+            CTR footerCtr = footerCtp.addNewR(); 
+            
+            footerCtr.addNewRPr();
+			CTFldChar fch = footerCtr.addNewFldChar();
+			fch.setFldCharType(STFldCharType.BEGIN);
+
+			footerCtr = footerCtp.addNewR();
+			footerCtr.addNewInstrText().setStringValue(" PAGE ");
+
+			footerCtp.addNewR().addNewFldChar().setFldCharType(STFldCharType.SEPARATE);
+
+			footerCtp.addNewR().addNewT().setStringValue("1");
+
+			footerCtp.addNewR().addNewFldChar().setFldCharType(STFldCharType.END);
+			
+            XWPFParagraph footerCopyrightParagraph = new XWPFParagraph(footerCtp, doc); 
+            doc.getProperties().getExtendedProperties().getUnderlyingProperties().getPages(); 
+            XWPFRun run = footerCopyrightParagraph.getRun(footerCtr);
+            SimpleDateFormat dateFormate = new SimpleDateFormat("dd/MM/yyyy");
+            run.setText("Report Generation Date: "+dateFormate.format(new Date())); 
+            run.addTab(); 
+            run.setText("Page: "); 
+            run.setFontSize(10); 
+            run.setFontFamily("Arial"); 
+
+            XWPFParagraph[] footerParagraphs = { footerCopyrightParagraph }; 
+            policy.createFooter(STHdrFtr.DEFAULT, footerParagraphs); 
+			*/
+			
+			
 			// create footer
 			CTP ctpFooter = CTP.Factory.newInstance();
 
