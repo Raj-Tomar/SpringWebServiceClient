@@ -78,4 +78,66 @@ public class EmployeeController {
 		}
 		return "redirect:/employee";
 	}
+	
+	// Datatable ajax call pagination
+	/*
+	@RequestMapping(value="/getSellHistory/{uid}", method = RequestMethod.POST)
+	@ResponseBody
+	public String getSellHistory(@RequestParam("draw") String draw,
+			@RequestParam("start") String start,@RequestParam("length") String length,
+			@PathVariable("uid")String uid,
+			HttpServletRequest request,HttpServletResponse response){
+		LOGGER.info("UserProfileController");
+		String sessId = null;
+		String au_id = null;
+		List<KeyValueDto> sellingList = null;
+		JSONObject sellHistory = new JSONObject();
+		try {
+			session = request.getSession(false);
+			Cookie[] cookies = request.getCookies();
+			if(cookies == null || session == null){
+				//return sellingList;
+				return sellHistory.toString();
+			}
+			else{
+				sessId = geturl.getSessId(cookies);
+		    	String validSession = userService.validateCsSessionToken(sessId);
+		    	if (!AntelopeResourceConstants.SESSION_VALID.equals(validSession)) {
+		    		au_id = geturl.getAuthId(cookies);
+		    		String ulid = session.getAttribute("userloginid").toString();
+	    			sessId = userService.getRenewalSessionAdmin(au_id, sessId, geturl.getCurrentURL(request), ulid);
+	    			if (HTMLUtil.constructCookies(response, request.getCookies(), sessId)) {
+	    				validSession =  AntelopeResourceConstants.SESSION_VALID;
+	    			}
+	    		}
+	    		LOGGER.info("ValidateSession: "+validSession);
+	    		if(AntelopeResourceConstants.SESSION_VALID.equals(validSession) ){
+	    			sellingList = userProfileService.getSellingHistory(uid);
+	    			LOGGER.info("Total Sellings: "+sellingList.size());
+	    			int pageStart = Integer.parseInt(start);
+	    			int pageLength = Integer.parseInt(length);
+	    			int pageDraw = Integer.parseInt(draw);
+	    			LOGGER.info("Draw: "+draw+" Start: "+start+" PageLength: "+length);
+	    			
+	    			for(int i = pageStart; i <= (pageDraw * pageLength); i++){
+	    				KeyValueDto data = new KeyValueDto();
+	    				data.setKey("I100"+i);
+	    				data.setValue("P100"+i);
+	    				sellingList.add(data);
+	    			}
+	    			Integer rowCount = 1000;
+	    			sellHistory.put("data", sellingList);
+	    			sellHistory.put("recordsFiltered", rowCount);
+	    			sellHistory.put("recordsTotal", rowCount);
+	    			sellHistory.put("draw", draw);
+	    		}
+			}
+		} catch (Exception e) {
+			LOGGER.error("Exception: "+e.getMessage());
+		}
+		//return sellingList;
+		return sellHistory.toString();
+	}
+	*/
+	
 }
