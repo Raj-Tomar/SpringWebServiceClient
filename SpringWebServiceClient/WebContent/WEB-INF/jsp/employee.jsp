@@ -2,8 +2,8 @@
     pageEncoding="ISO-8859-1"%>
     
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
  <head>
@@ -123,76 +123,6 @@ $(document).ready(function(){
 });
 
 </script>
-<!-- 
 
-// Datatable ajax call sample
-
-<script> 
-$(document).ready(function() {
-	preventBack(); 
-    $('#example').DataTable();
-    
-   var table = $('#example2').DataTable({
-	   scrollY:        '50vh',
-       scrollCollapse: true,
-       paging:         false,
-	   "ajax": {
-            "url": "getRepTypMasters",
-            "type": "POST",
-            "dataSrc": ""
-        },
-        "columns": [
-                    { "data": "rn" },
-                    { "data": "cn" },
-                    { "data": "rd" },
-                    { 
-                    	"data": null,
-                    	//"defaultContent":'<a class="repEdit" href="#" style="color:#000;text-decoration:none;"><img src="<c:url value="/resources/images/edit.png" />" height="12px" width="12px" title="Edit"/> <spring:message code="label.edit"/></a>'
-                    	"defaultContent":"<button>Edit</button>"
-                    },
-                    { 
-	                   	"data": "rs",
-                        render: function (data, type, row) {
-                            var ddl = "<select>";
-                            for (var i = 0; i < data.length; i++) {
-                            	if(data == 1){
-                            		ddl = ddl + "<option value='"+data+"'>Active</option>";
-                            		ddl = ddl + "<option value='"+data+"'>In-Active</option>";
-                            	}else{
-                            		ddl = ddl + "<option value='"+data+"'>In-Active</option>";
-                            		ddl = ddl + "<option value='"+data+"'>Active</option>";
-                            	}
-                                
-                            }
-                            ddl += "</select>";
-                            return ddl;
-                        }
-                    },
-                ],
-    	language: {
-            paginate: {
-                previous	: "<spring:message code='datatable.previous'/>",
-                next		: "<spring:message code='datatable.next'/>",
-            },
-        }
-    });
-    
-    // Reading table Row data
-    //$('#example2 tbody').on( 'click', 'button', function () {
-    $(document).on( 'click', '#example2 tbody button', function () {
-        console.log( table.row( this ).data() );
-    } );
-    
-    
-});
-// Detect Scrollbar reached to bottom
-$("#divId").scroll(function(){
-	   	if((Math.ceil($(this).scrollTop() + $(this).height()) >= $(this)[0].scrollHeight)){
-	   		// User operation
-	   	}
-	});
-
-</script>
- -->
  </body>
 </html>

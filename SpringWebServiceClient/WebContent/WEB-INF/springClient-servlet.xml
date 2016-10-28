@@ -46,4 +46,6 @@
 	
  	<!-- Locale Configuration Ends-->
  	
+ 	<util:properties id="properties" location="classpath:SpringWebServiceClient.properties" />
+ 	
  </beans>

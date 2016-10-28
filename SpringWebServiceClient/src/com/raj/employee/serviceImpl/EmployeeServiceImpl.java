@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 import com.google.gson.Gson;
 import com.raj.employee.dto.EmployeeDto;
 import com.raj.employee.service.EmployeeService;
+import com.raj.project.configuration.ProjectConfiguration;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService{
@@ -41,7 +42,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 			headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			entity = new HttpEntity<String>(requestData.toString(), headers);
-			url = "http://localhost:8080/SpringWebServiceExample/saveOrUpdateEmployee";
+			url = ProjectConfiguration.serviceUrl + "/saveOrUpdateEmployee";
 			restTemplate = new RestTemplate();
 			serviceResponse = restTemplate.postForObject(url, entity, String.class);
 		} catch (Exception e) {
@@ -62,7 +63,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 			headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			entity = new HttpEntity<String>(requestData.toString(), headers);
-			url = "http://localhost:8080/SpringWebServiceExample/getAllEmployee";
+			url = ProjectConfiguration.serviceUrl + "/getAllEmployee";
 			restTemplate = new RestTemplate();
 			serviceResponse = restTemplate.postForObject(url, entity, String.class);
 			JSONObject jObj = new JSONObject(serviceResponse);
@@ -95,7 +96,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 			headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			entity = new HttpEntity<String>(requestData.toString(), headers);
-			url = "http://localhost:8080/SpringWebServiceExample/getEmployeeById";
+			url = ProjectConfiguration.serviceUrl + "/getEmployeeById";
 			restTemplate = new RestTemplate();
 			serviceResponse = restTemplate.postForObject(url, entity, String.class);
 			JSONObject jObj = new JSONObject(serviceResponse);
@@ -125,7 +126,7 @@ public class EmployeeServiceImpl implements EmployeeService{
 			headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
 			entity = new HttpEntity<String>(requestData.toString(), headers);
-			url = "http://localhost:8080/SpringWebServiceExample/deleteEmployee";
+			url = ProjectConfiguration.serviceUrl + "/deleteEmployee";
 			restTemplate = new RestTemplate();
 			serviceResponse = restTemplate.postForObject(url, entity, String.class);
 			JSONObject jObj = new JSONObject(serviceResponse);
